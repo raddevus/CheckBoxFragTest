@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     private static boolean isChecked;
     private static boolean isChecked2;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         CheckBox frag3CheckBox;
         TextView textView1;
         TextView textView2;
+        View rootView;
 
         public PlaceholderFragment() {
         }
@@ -129,9 +129,37 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
+        public void onResume() {
+            super.onResume();
+            Log.d("MainActivity", "onResume : " + getArguments().getInt(ARG_SECTION_NUMBER));
+            switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
+                case 1: {
+
+                    tab1Checkbox = (CheckBox)rootView.findViewById(R.id.tab1CheckBox);
+                    if (tab1Checkbox != null){
+                        Log.d("MainActivity", "onResume - isChecked2 : " + String.valueOf(isChecked2));
+                        tab1Checkbox.setChecked(isChecked2);
+                    }
+                    break;
+                }
+                case 2: {
+                    break;
+                }
+                case 3: {
+                    frag3CheckBox = (CheckBox)rootView.findViewById(R.id.frag3CheckBox);
+                    if (frag3CheckBox != null) {
+                        Log.d("MainActivity", "onResume - isChecked : " + String.valueOf(isChecked));
+                        frag3CheckBox.setChecked(isChecked);
+                    }
+                    break;
+                }
+            }
+        }
+
+        @Override
         public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = null;
+
 
             switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
                 case 1: {
@@ -161,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                             if (frag3View == null) {
                                 frag3View = getActivity().getLayoutInflater().inflate(R.layout.fragment_3, container, false);
                             }
-                            frag3CheckBox = (CheckBox)view.getRootView().findViewById(R.id.frag3CheckBox);
+                            frag3CheckBox = (CheckBox)frag3View.findViewById(R.id.frag3CheckBox);
                             csOut = "frag3CheckBox text : " + frag3CheckBox.getText().toString() + "\n";
                             textView1.append( csOut);
                             Log.d("MainActivity",csOut.toString());
